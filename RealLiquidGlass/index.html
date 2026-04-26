@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Real Liquid Glass Effect - 真正液态玻璃效果</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --foreground: #000000;
+            --background: #0a0a0a;
+        }
+
+        body {
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--background);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .back-link {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.875rem;
+            display: flex;
+            align-items: center;
+            transition: opacity 0.2s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 999px;
+        }
+
+        .back-link:hover {
+            opacity: 0.7;
+        }
+
+        .back-link::before {
+            content: "←";
+            margin-right: 0.5rem;
+        }
+
+        .title {
+            position: fixed;
+            top: 28px;
+            right: 20px;
+            color: #666;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        /* 背景网格 */
+        .bg-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: 0;
+        }
+
+        /* 渐变背景圆圈 */
+        .bg-circle {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(0);
+        }
+
+        .circle-1 {
+            width: 400px;
+            height: 400px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            top: 10%;
+            left: 15%;
+        }
+
+        .circle-2 {
+            width: 350px;
+            height: 350px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            bottom: 15%;
+            right: 10%;
+        }
+
+        .circle-3 {
+            width: 280px;
+            height: 280px;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            top: 45%;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* 内容容器 */
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        h1 {
+            color: white;
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .subtitle {
+            color: #888;
+            font-size: 1.125rem;
+            margin-bottom: 4rem;
+        }
+
+        /* 液态玻璃卡片 - 需要应用 SVG 滤镜效果 */
+        .glass-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .liquid-glass {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .liquid-glass:hover {
+            transform: translateY(-4px);
+        }
+
+        .liquid-glass.large {
+            grid-column: 1 / -1;
+            text-align: left;
+        }
+
+        .liquid-glass h2 {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            letter-spacing: -0.01em;
+        }
+
+        .liquid-glass p {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .feature-list {
+            display: grid;
+            gap: 0.75rem;
+            margin-top: 1rem;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .feature-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.6);
+        }
+
+        /* 按钮 */
+        .glass-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.875rem 2rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .glass-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: scale(1.02);
+        }
+
+        /* 说明文字 */
+        .credits {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #555;
+            font-size: 0.8125rem;
+        }
+
+        .credits a {
+            color: #888;
+            text-decoration: none;
+        }
+
+        .credits a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+                padding-top: 80px;
+            }
+
+            .back-link {
+                position: fixed;
+                top: 12px;
+                left: 12px;
+            }
+
+            .title {
+                top: 20px;
+                right: 12px;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .subtitle {
+                margin-bottom: 2.5rem;
+            }
+
+            .glass-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .liquid-glass {
+                padding: 1.5rem;
+            }
+
+            .circle-1, .circle-2, .circle-3 {
+                transform: scale(0.7);
+            }
+        }
+    </style>
+</head>
+<body>
+    <a href="../" class="back-link">Back to Portfolio</a>
+    <div class="title">Real Liquid Glass</div>
+
+    <div class="bg-grid"></div>
+
+    <!-- 背景圆圈，这些会被液态玻璃效果扭曲 -->
+    <div class="bg-circle circle-1"></div>
+    <div class="bg-circle circle-2"></div>
+    <div class="bg-circle circle-3"></div>
+
+    <div class="content">
+        <h1>Liquid Glass</h1>
+        <p class="subtitle">真正的液态玻璃扭曲效果，使用 SVG 滤镜实现</p>
+
+        <div class="glass-container">
+            <div class="liquid-glass">
+                <h2>💧 液态流动</h2>
+                <p>跟随鼠标移动产生真实的液体折射扭曲效果，就像玻璃在流动。</p>
+            </div>
+
+            <div class="liquid-glass">
+                <h2>🎨 半透明</h2>
+                <p>半透明质感，可以透过玻璃看到背景的渐变色彩。</p>
+            </div>
+
+            <div class="liquid-glass">
+                <h2>⚡ 高性能</h2>
+                <p>基于 SVG 滤镜，使用 GPU 加速，流畅不卡顿。</p>
+            </div>
+
+            <div class="liquid-glass large">
+                <h2>关于这个效果</h2>
+                <p>这是 <a href="https://github.com/shuding/liquid-glass" target="_blank" rel="noopener noreferrer" style="color: white;">shuding/liquid-glass</a> 开源项目的演示，使用 SVG 滤镜技术实现了真正的液态玻璃扭曲效果，区别于传统的 backdrop-filter 毛玻璃效果。</p>
+                <div class="feature-list">
+                    <div class="feature-item">
+                        <span class="feature-dot"></span>
+                        <span>SVG 滤镜折射扭曲算法</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-dot"></span>
+                        <span>鼠标互动流动效果</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-dot"></span>
+                        <span>自动追踪所有 .liquid-glass 元素</span>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-dot"></span>
+                        <span>一行 JavaScript 即可启用</span>
+                    </div>
+                </div>
+                <button class="glass-btn" onclick="toggleAnimation()">Toggle Animation</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="credits">
+        Original effect by <a href="https://github.com/shuding" target="_blank" rel="noopener noreferrer">@shuding</a>
+    </div>
+
+    <!-- SVG 滤镜定义 -->
+    <svg width="0" height="0" style="position: absolute; pointer-events: none;">
+        <filter id="liquid">
+            <feTurbulence type="fractalNoise" baseFrequency="0.01" numOctaves="2" result="turbulence" seed="5">
+                <animate attributeName="seed" values="5;35;5" dur="10s" repeatCount="indefinite" />
+            </feTurbulence>
+            <feDisplacementMap in="SourceGraphic" in2="turbulence" scale="60" />
+        </filter>
+    </svg>
+
+    <script src="./liquid-glass.js"></script>
+    <script>
+        // 自动初始化液态玻璃效果
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.liquidGlass) {
+                liquidGlass(document.querySelectorAll('.liquid-glass'), {
+                    intensity: 30,
+                    softness: 10
+                });
+                console.log('Liquid Glass effect initialized!');
+            } else {
+                console.error('Liquid Glass library not loaded');
+            }
+        });
+
+        // 切换动画
+        function toggleAnimation() {
+            const filter = document.querySelector('feTurbulence animate');
+            if (filter) {
+                if (filter.getAttribute('attributeName')) {
+                    filter.removeAttribute('attributeName');
+                } else {
+                    filter.setAttribute('attributeName', 'seed');
+                }
+            }
+        }
+    </script>
+</body>
+</html>
