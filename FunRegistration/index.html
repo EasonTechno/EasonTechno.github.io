@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>趣味注册程序</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>📱 账户注册</h1>
+        
+        <!-- 步骤指示器 -->
+        <div class="steps">
+            <div class="step active" id="step-1-indicator">1</div>
+            <div class="step" id="step-2-indicator">2</div>
+            <div class="step" id="step-3-indicator">3</div>
+        </div>
+
+        <!-- 第一步：选择手机号 -->
+        <div class="step-content active" id="step-1">
+            <h2>第一步：选择你的手机号</h2>
+            <p class="hint">拖动滑块从 00000000000 到 19999999999 中选择一个幸运数字</p>
+            
+            <div class="slider-container">
+                <input 
+                    type="range" 
+                    id="phoneSlider" 
+                    min="0" 
+                    max="19999999999" 
+                    value="13800138000"
+                    oninput="updatePhoneDisplay()"
+                >
+                <div class="phone-display">
+                    <span id="phoneOutput">13800138000</span>
+                </div>
+                <div class="slider-labels">
+                    <span>00000000000</span>
+                    <span>19999999999</span>
+                </div>
+            </div>
+
+            <div class="button-container">
+                <button onclick="nextStep()" class="next-btn">下一步 →</button>
+            </div>
+        </div>
+
+        <!-- 第二步：填写基础信息 -->
+        <div class="step-content" id="step-2">
+            <h2>第二步：填写基础信息</h2>
+            
+            <div class="form-group">
+                <label>性别：</label>
+                <div class="gender-options">
+                    <button class="gender-btn" onclick="selectGender('男')">男</button>
+                    <button class="gender-btn" onclick="selectGender('女')">女</button>
+                    <button class="gender-btn" onclick="selectGender('其他')">其他</button>
+                </div>
+                <div id="genderMessage" class="gender-message"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="password">密码：</label>
+                <div class="password-input-container">
+                    <input type="password" id="password" oninput="validatePassword()" placeholder="请输入密码...">
+                    <button type="button" id="togglePassword" class="toggle-btn" onclick="togglePasswordVisibility()">显示</button>
+                </div>
+                <div class="password-hint" id="passwordHint"></div>
+                <div class="validation-list" id="validationList"></div>
+            </div>
+
+            <div class="button-container">
+                <button onclick="prevStep()" class="prev-btn">← 上一步</button>
+                <button onclick="nextStep()" class="next-btn" id="nextBtn" disabled>下一步 →</button>
+            </div>
+        </div>
+
+        <!-- 第三步：提交 -->
+        <div class="step-content" id="step-3">
+            <h2>第三步：确认信息</h2>
+            <div class="summary">
+                <p><strong>手机号：</strong> <span id="summaryPhone"></span></p>
+                <p><strong>性别：</strong> <span id="summaryGender"></span></p>
+                <p><strong>密码：</strong> <span id="summaryPassword"></span></p>
+            </div>
+            <div class="button-container">
+                <button onclick="prevStep()" class="prev-btn">← 上一步</button>
+                <button onclick="submitForm()" class="submit-btn">提交注册</button>
+            </div>
+            <div id="submitMessage" class="submit-message"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
