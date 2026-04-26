@@ -3,7 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasonTechno 的作品展示</title>
+    <title>EasonTechno - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -11,123 +14,187 @@
             box-sizing: border-box;
         }
 
+        :root {
+            --foreground: #000000;
+            --background: #ffffff;
+            --secondary: #666666;
+            --border: #eaeaea;
+            --card-hover: #fafafa;
+            --link: #000000;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --foreground: #ffffff;
+                --background: #000000;
+                --secondary: #a0a0a0;
+                --border: #333333;
+                --card-hover: #111111;
+                --link: #ffffff;
+            }
+        }
+
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: var(--background);
+            color: var(--foreground);
             min-height: 100vh;
-            padding: 2rem 1rem;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
         .container {
-            max-width: 900px;
+            max-width: 1200px;
             margin: 0 auto;
+            padding: 4rem 2rem;
         }
 
         header {
-            text-align: center;
-            color: white;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .header-content {
+            max-width: 600px;
         }
 
         h1 {
             font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+            font-weight: 600;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
         }
 
         .subtitle {
-            font-size: 1.1rem;
-            opacity: 0.9;
+            font-size: 1.125rem;
+            color: var(--secondary);
+            font-weight: 400;
+            line-height: 1.6;
         }
 
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
         }
 
         .project-card {
-            background: white;
-            border-radius: 12px;
-            padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: var(--background);
+            padding: 2rem;
+            transition: background-color 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
         }
 
         .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+            background: var(--card-hover);
         }
 
         .project-icon {
-            font-size: 3rem;
-            margin-bottom: 1rem;
+            font-size: 2.5rem;
+            line-height: 1;
         }
 
         .project-title {
-            font-size: 1.3rem;
+            font-size: 1.25rem;
             font-weight: 600;
-            color: #333;
-            margin-bottom: 0.5rem;
+            letter-spacing: -0.01em;
+            color: var(--foreground);
         }
 
         .project-description {
-            color: #666;
+            color: var(--secondary);
             font-size: 0.95rem;
-            margin-bottom: 1rem;
-            line-height: 1.5;
+            line-height: 1.6;
+            flex-grow: 1;
         }
 
         .project-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-bottom: 1.2rem;
+            margin-top: 0.5rem;
         }
 
         .tag {
-            background: #f0f0f0;
-            padding: 0.25rem 0.6rem;
-            border-radius: 20px;
             font-size: 0.75rem;
-            color: #555;
+            color: var(--secondary);
+            padding: 0.25rem 0.625rem;
+            border: 1px solid var(--border);
+            border-radius: 9999px;
+            font-weight: 400;
         }
 
-        .view-btn {
-            display: inline-block;
-            width: 100%;
-            text-align: center;
-            padding: 0.7rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
+        .view-link {
+            display: inline-flex;
+            align-items: center;
+            margin-top: 1rem;
+            color: var(--link);
             text-decoration: none;
-            border-radius: 6px;
+            font-size: 0.95rem;
             font-weight: 500;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.2s ease;
         }
 
-        .view-btn:hover {
-            opacity: 0.9;
+        .view-link:hover {
+            opacity: 0.7;
+        }
+
+        .view-link::after {
+            content: "→";
+            margin-left: 0.5rem;
+            transition: transform 0.2s ease;
+        }
+
+        .view-link:hover::after {
+            transform: translateX(2px);
+        }
+
+        .view-link.disabled {
+            opacity: 0.3;
+            pointer-events: none;
         }
 
         footer {
-            text-align: center;
-            margin-top: 3rem;
-            color: rgba(255,255,255,0.8);
-            font-size: 0.9rem;
+            margin-top: 6rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--secondary);
+            font-size: 0.875rem;
         }
 
         footer a {
-            color: white;
-            text-decoration: underline;
+            color: var(--link);
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
         }
 
-        @media (max-width: 600px) {
+        footer a:hover {
+            border-bottom-color: var(--link);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1rem;
+            }
+
             h1 {
                 font-size: 2rem;
             }
+
             .projects-grid {
                 grid-template-columns: 1fr;
+                border-radius: 8px;
+            }
+
+            .project-card {
+                padding: 1.5rem;
             }
         }
     </style>
@@ -135,8 +202,10 @@
 <body>
     <div class="container">
         <header>
-            <h1>🚀 EasonTechno</h1>
-            <p class="subtitle">Demo 作品集 · 展示我的创意项目</p>
+            <div class="header-content">
+                <h1>EasonTechno</h1>
+                <p class="subtitle">Developer portfolio showcasing demo projects and creative experiments.</p>
+            </div>
         </header>
 
         <div class="projects-grid">
@@ -144,30 +213,40 @@
             <div class="project-card">
                 <div class="project-icon">📱</div>
                 <h3 class="project-title">趣味注册程序</h3>
-                <p class="project-description">一个有趣的多步骤注册表单，带有滑块选择手机号、密码强度验证等交互效果。</p>
+                <p class="project-description">一个有趣的多步骤注册表单，带有滑块选择手机号、密码强度验证等交互动效。</p>
                 <div class="project-tags">
                     <span class="tag">HTML</span>
                     <span class="tag">CSS</span>
                     <span class="tag">JavaScript</span>
-                    <span class="tag">交互</span>
+                    <span class="tag">Interaction</span>
                 </div>
-                <a href="./FunRegistration/" class="view-btn">查看 Demo</a>
+                <a href="./FunRegistration/" class="view-link">查看 Demo</a>
             </div>
 
-            <!-- 更多项目可以在这里继续添加 -->
+            <!-- 更多项目占位 -->
             <div class="project-card">
                 <div class="project-icon">✨</div>
-                <h3 class="project-title">更多项目即将到来</h3>
-                <p class="project-description">持续更新中，敬请期待... </p>
+                <h3 class="project-title">Coming Soon</h3>
+                <p class="project-description">More creative projects and experiments will be added here.</p>
                 <div class="project-tags">
-                    <span class="tag">Coming Soon</span>
+                    <span class="tag">In Progress</span>
                 </div>
-                <a href="#" class="view-btn" style="opacity: 0.5; pointer-events: none;">待添加</a>
+                <a href="#" class="view-link disabled">待添加</a>
+            </div>
+
+            <div class="project-card">
+                <div class="project-icon">🚀</div>
+                <h3 class="project-title">More Projects</h3>
+                <p class="project-description">Stay tuned for upcoming developments and new features.</p>
+                <div class="project-tags">
+                    <span class="tag">Future</span>
+                </div>
+                <a href="#" class="view-link disabled">待添加</a>
             </div>
         </div>
 
         <footer>
-            <p>Hosted on <a href="https://pages.github.com/">GitHub Pages</a> · Built with ❤️</p>
+            <p>Hosted on <a href="https://pages.github.com/" target="_blank" rel="noopener noreferrer">GitHub Pages</a> · Designed with <a href="https://vercel.com/design" target="_blank" rel="noopener noreferrer">Vercel Geist Style</a></p>
         </footer>
     </div>
 </body>
