@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EasonTechno | Personal Homepage</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --bg: #0f172a;
+            --bg-light: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #8b5cf6;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 80px 0 60px;
+            text-align: center;
+        }
+
+        .avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            margin: 0 auto 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            font-weight: 700;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero .subtitle {
+            font-size: 20px;
+            color: var(--text-muted);
+            margin-bottom: 32px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 8px 16px;
+            background: var(--bg-light);
+            border-radius: 20px;
+            font-size: 14px;
+            color: var(--text-muted);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Projects Section */
+        .section {
+            padding: 40px 0;
+        }
+
+        .section-title {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background: var(--bg-light);
+            border-radius: 16px;
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-icon {
+            font-size: 32px;
+            margin-bottom: 16px;
+        }
+
+        .project-card h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .project-card p {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .project-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .project-link:hover {
+            color: var(--primary-dark);
+        }
+
+        .project-tech {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tech-tag {
+            padding: 4px 10px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 12px;
+            font-size: 12px;
+            color: var(--primary);
+        }
+
+        /* Footer */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 40px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .social-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .social-link:hover {
+            color: var(--primary);
+        }
+
+        .copyright {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Quote */
+        .quote {
+            text-align: center;
+            padding: 40px 0;
+            font-style: italic;
+            color: var(--text-muted);
+            font-size: 18px;
+        }
+
+        .quote-author {
+            margin-top: 12px;
+            font-size: 14px;
+            color: var(--text-muted);
+            opacity: 0.7;
+        }
+
+        @media (max-width: 640px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+            
+            .hero .subtitle {
+                font-size: 16px;
+            }
+            
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <section class="hero">
+            <div class="avatar">E</div>
+            <h1>EasonTechno</h1>
+            <p class="subtitle">Developer & Researcher</p>
+            <div class="tags">
+                <span class="tag">🧠 Language & Cognition</span>
+                <span class="tag">⚛️ Physics Enthusiast</span>
+                <span class="tag">🤖 AI & Neural Networks</span>
+            </div>
+        </section>
+
+        <section class="section">
+            <h2 class="section-title">🔬 Featured Projects</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-icon">📚</div>
+                    <h3>MetaLanguage</h3>
+                    <p>Research project studying how language influences human cognition. Using neural networks to model language's effect on thinking, developing cognitive enhancement tools independent of native languages.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">PyTorch</span>
+                        <span class="tech-tag">Research</span>
+                    </div>
+                    <a href="https://github.com/EasonTechno/MetaLanguage" class="project-link" target="_blank">
+                        View on GitHub →
+                    </a>
+                </div>
+
+                <div class="project-card">
+                    <div class="project-icon">📊</div>
+                    <h3>More Coming Soon</h3>
+                    <p>Stay tuned for more exciting projects. I'm always exploring new ideas and building interesting things in the open.</p>
+                    <div class="project-tech">
+                        <span class="tech-tag">WIP</span>
+                    </div>
+                    <a href="https://github.com/EasonTechno" class="project-link" target="_blank">
+                        Follow on GitHub →
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <div class="quote">
+            "Language shapes the way we think, and determines what we can think about."
+            <div class="quote-author">— Benjamin Lee Whorf</div>
+        </div>
+
+        <footer class="footer">
+            <div class="social-links">
+                <a href="https://github.com/EasonTechno" class="social-link" target="_blank">GitHub</a>
+                <a href="mailto:uu13652153631@qq.com" class="social-link">Email</a>
+            </div>
+            <div class="copyright">
+                © 2024 EasonTechno. Built with ❤️
+            </div>
+        </footer>
+    </div>
+</body>
+</html>
